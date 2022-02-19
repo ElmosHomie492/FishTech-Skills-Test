@@ -1,0 +1,12 @@
+terraform/*
+.DS_Store
+.terraform.lock.hcl
+.terraform/
+deploy.done
+go.sum
+init.done
+ip_info
+ip_info 2
+ip_info.zip
+terraform.tfstate
+terraform.tfstate.backup
