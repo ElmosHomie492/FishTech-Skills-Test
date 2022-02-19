@@ -12,22 +12,22 @@ import (
 	"strings"
 )
 
-func buildResponse(ip string) []byte {
-	whoIsInfo := getWhoIsInfo(ip)
-	fmt.Println(whoIsInfo)
-
+func buildResponse(ip string) GeoIpInfo {
 	geoIpInfo := getGeoIpInfo(ip)
 
-	jsonResponse, err := json.Marshal(`GeoIpInfo` + geoIpInfo)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return jsonResponse
+	return geoIpInfo
 }
 
-func getWhoIsInfo(ip string) string {
+func getWhoIsInfo(ip string) WhoIsInfo {
+	// In both this method and the getGeoIpInfo() method,
+	// I utilized the json.Unmarshal method to unmarshal
+	// the resulting byte arrays into the structs that I
+	// defined in structs.go
+
+	// NOTE: This data is no longer used for anything.
+	// I had some issues getting whois to run via an
+	// AWS Lambda function
+	var whoIsInfo WhoIsInfo
 	if ipValid(ip) {
 		ianaServer := "whois.iana.org"
 		ianaResponse := runWhoisCommand("-h", ianaServer, ip)
@@ -48,13 +48,36 @@ func getWhoIsInfo(ip string) string {
 		}
 
 		whois := runWhoisCommand("-h", whoisServer, ip)
-
-		return whois.String()
+		json.Unmarshal(parseWhoIsInfo(whois.String()), &whoIsInfo)
 	}
-	return ""
+	return whoIsInfo
 }
 
-func getGeoIpInfo(ip string) string {
+func parseWhoIsInfo(data string) []byte {
+	dataList := strings.Split(data, "\n")
+	dataMap := make(map[string]string)
+
+	for i := 0; i < len(dataList); i++ {
+		if dataList[i] != "" {
+			key := dataList[i][:strings.IndexByte(dataList[i], ':')]
+			value := strings.TrimLeft(dataList[i][strings.IndexByte(dataList[i], ':')+1:], " ")
+
+			dataMap[key] = value
+		}
+	}
+
+	returnData, err := json.Marshal(dataMap)
+
+	if err != nil {
+		fmt.Printf("Error: %s", err.Error())
+	}
+
+	return returnData
+}
+
+func getGeoIpInfo(ip string) GeoIpInfo {
+	// Showing utilization of a third party API
+	var geoIpInfo GeoIpInfo
 	if ipValid(ip) {
 		response, err := http.Get("https://json.geoiplookup.io/" + ip)
 
@@ -69,7 +92,7 @@ func getGeoIpInfo(ip string) string {
 			log.Fatal(err)
 		}
 
-		return string(responseData)
+		json.Unmarshal(responseData, &geoIpInfo)
 	}
-	return ""
+	return geoIpInfo
 }

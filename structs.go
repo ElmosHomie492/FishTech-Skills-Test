@@ -1,6 +1,37 @@
 package main
 
-// NOTE: Not used, but could be a stepping stone towards providing all IP information in a single api call
+type WhoIsInfo struct {
+	Address        string `json:"Address"`
+	Cidr           string `json:"CIDR"`
+	City           string `json:"City"`
+	Comment        string `json:"Comment"`
+	Country        string `json:"Country"`
+	NetHandle      string `json:"NetHandle"`
+	NetName        string `json:"NetName"`
+	NetRange       string `json:"NetRange"`
+	NetType        string `json:"NetType"`
+	OrgAbuseEmail  string `json:"OrgAbuseEmail"`
+	OrgAbuseHandle string `json:"OrgAbuseHandle"`
+	OrgAbuseName   string `json:"OrgAbuseName"`
+	OrgAbusePhone  string `json:"OrgAbusePhone"`
+	OrgAbuseRef    string `json:"OrgAbuseRef"`
+	OrgID          string `json:"OrgId"`
+	OrgName        string `json:"OrgName"`
+	OrgTechEmail   string `json:"OrgTechEmail"`
+	OrgTechHandle  string `json:"OrgTechHandle"`
+	OrgTechName    string `json:"OrgTechName"`
+	OrgTechPhone   string `json:"OrgTechPhone"`
+	OrgTechRef     string `json:"OrgTechRef"`
+	Organization   string `json:"Organization"`
+	OriginAS       string `json:"OriginAS"`
+	Parent         string `json:"Parent"`
+	PostalCode     string `json:"PostalCode"`
+	Ref            string `json:"Ref"`
+	RegDate        string `json:"RegDate"`
+	StateProv      string `json:"StateProv"`
+	Updated        string `json:"Updated"`
+}
+
 type GeoIpInfo struct {
 	IP             string  `json:"ip"`
 	ISP            string  `json:"isp"`
@@ -25,5 +56,4 @@ type GeoIpInfo struct {
 	CurrencyName   string  `json:"currency_name"`
 	Success        bool    `json:"success"`
 	Premium        bool    `json:"premium"`
-	WhoIsData      string
 }

@@ -21,7 +21,7 @@ func handleRequests(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRe
 	res := events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
 		Headers:    map[string]string{"Content-Type": "text/plain; charset=utf-8"},
-		Body:       string(buildResponse(ip)),
+		Body:       fmt.Sprintf("%#v", buildResponse(ip)),
 	}
 	return res, nil
 }
