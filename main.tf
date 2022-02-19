@@ -2,12 +2,6 @@
 data "aws_region" "current" {
 }
 
-provider "aws" {
-  region     = "us-east-1"
-  access_key = "AKIA5JGRGIMK7RCXTLOC"
-  secret_key = "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"
-}
-
 # Define a Lambda function.
 #
 # The handler is the name of the executable for go1.x runtime.

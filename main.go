@@ -9,7 +9,6 @@ import (
 )
 
 func handleRequests(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	fmt.Println("MADE IT HERE!")
 	fmt.Println(req.QueryStringParameters["ip"])
 	ip, ok := req.QueryStringParameters["ip"]
 	if !ok {
